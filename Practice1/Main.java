@@ -1,7 +1,10 @@
+package Practice1;
+
+
 public class Main {
     public static void main(String[] args) {
         try{
-            Employee employee = new Employee("Jack", "Lancaster", 10023);
+            Employee employee = new Employee("Jack", "Lancaster", 10023 );
             employee.printEmployee();
         } catch (FieldLengthLimitException | IncorrectSalaryException e){
             System.out.println(e.getMessage());

@@ -1,3 +1,4 @@
+package Practice1;
 
 public class Employee {
     private int id;
@@ -27,7 +28,7 @@ public class Employee {
         this.salary = salary;
     }
 
-    void printEmployee(){
+    public void printEmployee(){
         System.out.println("ID: " + id + ", Name: " + name + ", Surname: "  + surname + ", Salary: " + salary);
     }
 

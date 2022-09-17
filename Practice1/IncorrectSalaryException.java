@@ -1,3 +1,5 @@
+package Practice1;
+
 public class IncorrectSalaryException extends Exception {
 
     public IncorrectSalaryException() {
