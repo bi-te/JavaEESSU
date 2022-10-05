@@ -1,5 +1,7 @@
 package Practice2;
 
+import java.util.LinkedHashMap;
+
 public class Main {
     public static void main(String[] args) {
         Registry workers = Registry.getRegistry();
