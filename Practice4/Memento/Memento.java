@@ -80,4 +80,8 @@ public class Memento {
     public void setCharisma(int charisma) {
         this.charisma = charisma;
     }
+
+    public Memento copy(){
+        return new Memento(strength, dexterity, constitution, intelligence, wisdom, charisma);
+    }
 }

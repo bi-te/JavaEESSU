@@ -12,7 +12,7 @@ public class CareTaker {
 
 
     public void add(Memento memento){
-        mementoList.add(memento);
+        mementoList.add(memento.copy());
     }
 
     public Memento get(int index){
