@@ -1,5 +1,6 @@
 package Practice4.Memento;
 
+import java.util.LinkedHashMap;
 import java.util.Random;
 
 public class Dice {
