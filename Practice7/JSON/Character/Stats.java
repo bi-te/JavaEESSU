@@ -1,8 +1,12 @@
-package Practice6.AbstractFactory.Character;
+package Practice7.JSON.Character;
+
+import Practice7.JSON.ElementVisitor.DataElement;
+import Practice7.JSON.ElementVisitor.DataElementVisitor;
 
 import java.util.HashMap;
+import java.util.TreeMap;
 
-public class Stats {
+public class Stats implements DataElement {
 
     private HashMap<String, Integer> stats;
 
@@ -36,6 +40,11 @@ public class Stats {
 
     public HashMap<String, Integer> getStats(){
         return stats;
+    }
+
+    @Override
+    public void accept(DataElementVisitor visitor, TreeMap<String, String> map) {
+        map.putAll(visitor.visit(this));
     }
 
     @Override

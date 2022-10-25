@@ -1,8 +1,11 @@
-package Practice6.AbstractFactory.Character;
+package Practice7.Visitor.Character;
+
+import Practice7.Visitor.ElementVisitor.DataElement;
+import Practice7.Visitor.ElementVisitor.DataElementVisitor;
 
 import java.util.HashMap;
 
-public class Stats {
+public class Stats implements DataElement {
 
     private HashMap<String, Integer> stats;
 
@@ -36,6 +39,11 @@ public class Stats {
 
     public HashMap<String, Integer> getStats(){
         return stats;
+    }
+
+    @Override
+    public void accept(DataElementVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

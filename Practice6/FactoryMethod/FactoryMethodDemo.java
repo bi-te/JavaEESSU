@@ -1,6 +1,7 @@
 package Practice6.FactoryMethod;
 
 import Practice6.FactoryMethod.Character.Character;
+import Practice6.FactoryMethod.ClassFactory;
 
 public class FactoryMethodDemo {
     public static void main(String[] args) {
