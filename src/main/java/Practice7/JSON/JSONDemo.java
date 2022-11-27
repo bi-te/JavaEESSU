@@ -25,7 +25,7 @@ public class JSONDemo {
         try(FileWriter output = new FileWriter("output.json")){
 
             characterData = new TreeMap<>();
-            Character bard = new Character("Ivan", ClassFactory.getClass("Bard"), gnomeFactory.create());
+            Character bard = new Character("Artem", ClassFactory.getClass("Bard"), gnomeFactory.create());
             bard.addClassBonuses();
             bard.addRaceBonuses();
             bard.accept(visitor, characterData);
