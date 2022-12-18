@@ -35,7 +35,6 @@ public class StudentAdd extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         PrintWriter pw = null;
         try {
             pw = response.getWriter();
@@ -81,11 +80,14 @@ public class StudentAdd extends HttpServlet {
             request.setAttribute("students", students);
             request.getRequestDispatcher("index.jsp").forward(request, response);
             response.sendRedirect("./");
+
         } catch (SQLException e) {
             pw.print(e.getMessage());
             e.printStackTrace();
+
         } catch (Exception e) {
             e.printStackTrace();
+
         } finally {
             if (conn != null) {
                 try {
