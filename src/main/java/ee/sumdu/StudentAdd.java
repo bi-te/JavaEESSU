@@ -6,6 +6,7 @@ package ee.sumdu;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -20,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Professional
  */
-@WebServlet(name = "StudentAdd", urlPatterns = {"/StudentAdd"})
+@WebServlet(name = "StudentAdd", urlPatterns = {"/"}, loadOnStartup = 1)
 public class StudentAdd extends HttpServlet {
 
     /**
@@ -35,28 +36,65 @@ public class StudentAdd extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        List<Student> students = (List<Student>) session.getAttribute("students");
-
-        if(students == null){
-            students = new LinkedList<>();
-            session.setAttribute("students", students);
+        PrintWriter pw = null;
+        try {
+            pw = response.getWriter();
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace(pw);
+            pw.print(ex.getMessage());
         }
 
-        if(!Objects.equals(request.getParameter("name"), "") &&
-           !Objects.equals(request.getParameter("surname"), "")){
-           Student student = new Student(
-                   request.getParameter("name"),
-                   request.getParameter("surname"),
-                   request.getParameter("age"),
-                   request.getParameter("email"),
-                   request.getParameter("group"),
-                   request.getParameter("faculty")
-           );
-           students.add(student);
-        }
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3311/students", "root", "root");
 
-        response.sendRedirect("index.jsp");
+            if (request.getParameter("name") != null && request.getParameter("surname") != null) {
+                PreparedStatement ps = conn.prepareStatement(
+                        "INSERT INTO students (name, surname, age, email, `group`, faculty) VALUES (?, ?, ?, ?, ?, ?);"
+                );
+
+                ps.setString(1, request.getParameter("name"));
+                ps.setString(2, request.getParameter("surname"));
+                ps.setInt(3, Integer.parseInt(request.getParameter("age")));
+                ps.setString(4, request.getParameter("email"));
+                ps.setString(5, request.getParameter("group"));
+                ps.setString(6, request.getParameter("faculty"));
+                ps.executeUpdate();
+            }
+
+            Statement s = conn.createStatement();
+            ResultSet rs = s.executeQuery("SELECT * FROM students;");
+            List<Student> students = new LinkedList<>();
+
+            while (rs.next())
+                students.add(
+                        new Student(
+                                rs.getString(2),
+                                rs.getString(3),
+                                ((Integer)rs.getInt(4)).toString(),
+                                rs.getString(5), rs.getString(6),
+                                rs.getString(7)
+                        )
+                );
+
+            request.setAttribute("students", students);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            response.sendRedirect("./");
+        } catch (SQLException e) {
+            pw.print(e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
