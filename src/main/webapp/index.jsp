@@ -11,7 +11,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>JSP Page</title>
+    <title>Lab12</title>
     <style>
         h1 {
             text-align: center;
@@ -22,23 +22,32 @@
         }
         form {
             width: 400px;
-            margin: auto;
+            margin: 20px auto;
         }
         input[type=submit] {
             margin: auto;
         }
+        .list, .list td, .list th {
+            margin: auto;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        .list td, .list th {
+            padding: 10px;
+        }
         body {
-            background-image: url('https://wallpapercave.com/wp/wp6222675.jpg');
+            background-image: url('https://static.vecteezy.com/system/resources/previews/004/371/970/original/winter-landscape-with-mountains-on-the-horizon-pine-forest-and-snow-background-for-your-creativity-free-vector.jpg');
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: 100% 100%;
         }
     </style>
 </head>
+
 <body>
 <div id="page">
-    <h1>Practice 11</h1>
-    <form method="post">
+    <h1>Students</h1>
+    <form method="post" action="StudentAdd">
         <table>
             <tbody>
             <tr>
@@ -50,34 +59,46 @@
                 <td><input id="surname" type="text" name="surname"></td>
             </tr>
             <tr>
+                <td><label for="age"/>Age</td>
+                <td><input id="age" type="text" name="age"></td>
+            </tr>
+            <tr>
                 <td><label for="email"/>Email</td>
                 <td><input id="email" type="text" name="email"></td>
             </tr>
+            <tr>
+                <td><label for="group"/>Group</td>
+                <td><input id="group" type="text" name="group"></td>
+            </tr>
+            <tr>
+                <td><label for="faculty"/>Faculty</td>
+                <td><input id="faculty" type="text" name="faculty"></td>
+            </tr>
             </tbody>
         </table>
-        <input type="submit" name="send" value="Send">
+        <input type="submit" name="send" value="Add">
     </form>
-    <c:if test="${not empty param.send}">
-        <c:set var="id" value="${id+1}" scope="application"/>
-
-        <c:if test="${not empty param.name}">
-            <c:set var="name" value="${param.name}" scope="session"></c:set>
-            <p>
-                Name: ${param.name}
-            </p>
-        </c:if>
-        <c:if test="${not empty param.surname}">
-            <c:set var="surname" value="${param.surname}" scope="session"></c:set>
-            <p>
-                Surname: ${param.surname}
-            </p>
-        </c:if>
-        <c:if test="${not empty param.email}">
-            <c:set var="email" value="${param.email}" scope="session"></c:set>
-            <p>
-                Email: ${param.email}
-            </p>
-        </c:if>
+    <c:if test="${students.size() > 0}">
+        <table class="list">
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Group</th>
+                <th>Faculty</th>
+            </tr>
+            <c:forEach var="student" items="${students}">
+                <tr>
+                    <td><c:out value="${student.getName()}"/>   </td>
+                    <td><c:out value="${student.getSurname()}"/></td>
+                    <td><c:out value="${student.getAge()}"/>    </td>
+                    <td><c:out value="${student.getEmail()}"/>  </td>
+                    <td><c:out value="${student.getGroup()}"/>  </td>
+                    <td><c:out value="${student.getFaculty()}"/></td>
+                </tr>
+            </c:forEach>
+        </table>
     </c:if>
 </div>
 </body>
